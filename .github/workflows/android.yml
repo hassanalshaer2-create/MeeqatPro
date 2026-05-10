@@ -10,7 +10,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.10'  # إجبار النظام على نسخة مستقرة
 
       - name: Install System Dependencies
         run: |
@@ -35,14 +35,14 @@ jobs:
 
       - name: Install Python Tools
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install --upgrade "Cython<3.0.0" buildozer setuptools
 
       - name: Build with Buildozer
         run: |
-          # تأكدنا من عدم وجود buildozer init لكي نستخدم ملفك المخصص
           export JAVA_HOME=$JAVA_HOME_17_X64
-          # الموافقة التلقائية على التراخيص والبدء بالبناء الشامل
+          # حذف أي بقايا قديمة قبل البدء
+          rm -rf .buildozer
           yes | buildozer -v android debug
 
       - name: Upload APK
